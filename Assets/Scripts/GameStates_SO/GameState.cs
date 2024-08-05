@@ -11,17 +11,17 @@ public class GameState : ScriptableObject
     private Stack<int> m_rodLeft = new Stack<int>();
     private Stack<int> m_rodCenter = new Stack<int>();
     private Stack<int> m_rodRight = new Stack<int>();
-    private List<Stack<int>> m_rods = new List<Stack<int>>();
+    public List<Stack<int>> rodsList = new List<Stack<int>>();
     private Stack<int> m_initialStack = new Stack<int>();
     [SerializeField] private int m_diskOnGame = 5;
 
     public void SetUpGame()
     {
-        m_rods.Add(m_rodLeft);
-        m_rods.Add(m_rodCenter);
-        m_rods.Add(m_rodRight);
+        rodsList.Add(m_rodLeft);
+        rodsList.Add(m_rodCenter);
+        rodsList.Add(m_rodRight);
 
-        m_initialStack = m_rods[0];
+        m_initialStack = rodsList[0];
         FindUpTheRod(m_initialStack, m_diskOnGame);
     }
 
@@ -32,7 +32,6 @@ public class GameState : ScriptableObject
             rod.Push(i);
         }
     }
-
     //TODO
     /*
     InitialStack
