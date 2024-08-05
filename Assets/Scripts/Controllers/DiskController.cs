@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 public class DiskController : MonoBehaviour
 {
     [SerializeField] private int m_diskNumber = -1;
+    private int m_curreRrod = 1; //Center ROD
+    public int CurrentRod {get => m_curreRrod; set => m_curreRrod = value;}
     private float scale = 0.25f;
     public int DiskNumber { get => m_diskNumber; }
 

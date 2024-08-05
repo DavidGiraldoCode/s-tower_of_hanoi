@@ -41,19 +41,26 @@ public class GamePlayManager : MonoBehaviour
     {
 
     }
-    public bool TryToAddDisk(int disNumber, int rodID)
+    public void RegisterMover()
+    {
+        so_gameState.MovesCounter++;
+    }
+    public bool TryToAddDisk(int disNumber, int fromRodID, int toRodID)
     {
         so_gameState.CurrentDisk = disNumber;
-        if (so_gameState.rodsList[rodID].Count == 0)
+        if (so_gameState.rodsList[toRodID].Count == 0)
         {
-            so_gameState.rodsList[rodID].Push(disNumber);
+            so_gameState.rodsList[toRodID].Push(disNumber);
+            so_gameState.rodsList[fromRodID].Pop();
             return true;
         }
 
-        if (so_gameState.rodsList[rodID].Peek() < so_gameState.CurrentDisk) return false;
+        if (so_gameState.rodsList[toRodID].Peek() < so_gameState.CurrentDisk) return false;
 
-        so_gameState.rodsList[rodID].Push(disNumber);
-        so_gameState.CurrentDisk  = -1;
+        so_gameState.rodsList[toRodID].Push(disNumber);
+        so_gameState.rodsList[fromRodID].Pop();
+        so_gameState.CurrentDisk = -1;
+
         return true;
     }
 }

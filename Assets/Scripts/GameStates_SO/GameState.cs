@@ -14,28 +14,29 @@ public class GameState : ScriptableObject
     public List<Stack<int>> rodsList = new List<Stack<int>>();
     private Stack<int> m_initialStack = new Stack<int>();
     [SerializeField] private int m_diskOnGame = 5;
+    private int m_movesCounter = 0;
+    public int MovesCounter { get => m_movesCounter; set => m_movesCounter = value; }
+    private int m_currentDisk = -1;
+    public int CurrentDisk { get => m_currentDisk; set => m_currentDisk = value; }
 
     public void SetUpGame()
     {
+        MovesCounter = 0;
         rodsList.Add(m_rodLeft);
         rodsList.Add(m_rodCenter);
         rodsList.Add(m_rodRight);
 
-        m_initialStack = rodsList[0];
-        FindUpTheRod(m_initialStack, m_diskOnGame);
+        m_initialStack = rodsList[1]; //Center
+        FillUpTheRod(m_initialStack, m_diskOnGame);
+
     }
 
-    public void FindUpTheRod(Stack<int> rod, int diskCount)
+    public void FillUpTheRod(Stack<int> rod, int diskCount)
     {
         for (int i = (diskCount - 1); i >= 0; i--)
         {
             rod.Push(i);
         }
     }
-    //TODO
-    /*
-    InitialStack
-    */
-    private int m_currentDisk = -1;
-    public int CurrentDisk { get => m_currentDisk; set => m_currentDisk = value; }
+
 }

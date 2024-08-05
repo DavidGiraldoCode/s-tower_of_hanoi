@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -28,20 +29,23 @@ public class InputManager : MonoBehaviour
 
     public void onPick(InputAction.CallbackContext context)
     {
-
-        Debug.Log(context.ReadValue<float>());
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (context.performed)
         {
-            Debug.DrawLine(ray.origin, hit.point);
-            Debug.Log(hit.collider.gameObject.name);
-            Rigidbody selectedDiskRB;
-            if (!hit.collider) return;
-            if (!hit.collider.gameObject.TryGetComponent<Rigidbody>(out selectedDiskRB)) return;
-            StartCoroutine(DragUpdate(selectedDiskRB, context));
+            Debug.Log(context.ReadValue<float>());
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                Debug.DrawLine(ray.origin, hit.point);
+                Debug.Log(hit.collider.gameObject.name);
+                Rigidbody selectedDiskRB;
+                if (!hit.collider) return;
+                if (!hit.collider.gameObject.TryGetComponent<Rigidbody>(out selectedDiskRB)) return;
+                StartCoroutine(DragUpdate(selectedDiskRB, context));
 
+            }
         }
+
 
     }
     //TODO WIP
@@ -61,13 +65,13 @@ public class InputManager : MonoBehaviour
         }
         if (context.ReadValue<float>() == 0)
         {
-
             if (GamePlayManager.Instance)
             {
                 if (GamePlayManager.Instance.hoverRod != null)
                 {
-                    selectedDisk.gameObject.transform.position = new Vector3(GamePlayManager.Instance.hoverRod.transform.position.x, 1.0f, GamePlayManager.Instance.hoverRod.transform.position.z);
+                    selectedDisk.gameObject.transform.position = new Vector3(GamePlayManager.Instance.hoverRod.transform.position.x, 0.5f, GamePlayManager.Instance.hoverRod.transform.position.z);
                     selectedDisk.gameObject.transform.rotation = Quaternion.identity;
+                    GamePlayManager.Instance.RegisterMover();
                 }
                 else
                 {

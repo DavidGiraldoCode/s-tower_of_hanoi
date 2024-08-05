@@ -12,8 +12,12 @@ public class RodController : MonoBehaviour
         //Debug.Log(disk.DiskNumber);
         if (GamePlayManager.Instance)
         {
-            GamePlayManager.Instance.hoverRod = gameObject;
-            GamePlayManager.Instance.TryToAddDisk(disk.DiskNumber, m_rodID);
+            if (GamePlayManager.Instance.TryToAddDisk(disk.DiskNumber, disk.CurrentRod, m_rodID))
+            {
+                GamePlayManager.Instance.hoverRod = gameObject;
+                disk.CurrentRod = m_rodID;
+            }
+
         }
 
 
